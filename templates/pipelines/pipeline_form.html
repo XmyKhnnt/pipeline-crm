@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }} · Pipeline CRM{% endblock %}
+
+{% block content %}
+  <div class="form-page">
+    <a class="back-link" href="{% if pipeline %}{% url 'pipelines:detail' pipeline.pk %}{% else %}{% url 'pipelines:list' %}{% endif %}">← Back</a>
+    <h1>{{ title }}</h1>
+    <form method="post" class="form-stack">
+      {% csrf_token %}
+      {% if form.non_field_errors %}<div class="field-errors">{{ form.non_field_errors }}</div>{% endif %}
+      {% for field in form %}
+        <div class="form-field">
+          {{ field.label_tag }}
+          {{ field }}
+          {% if field.help_text %}<p class="help-text">{{ field.help_text }}</p>{% endif %}
+          {% if field.errors %}<div class="field-errors">{{ field.errors }}</div>{% endif %}
+        </div>
+      {% endfor %}
+      <div class="form-actions">
+        <a class="button button-secondary" href="{% if pipeline %}{% url 'pipelines:detail' pipeline.pk %}{% else %}{% url 'pipelines:list' %}{% endif %}">Cancel</a>
+        <button class="button button-primary" type="submit">{{ submit_label }}</button>
+      </div>
+    </form>
+  </div>
+{% endblock %}

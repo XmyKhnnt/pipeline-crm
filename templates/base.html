@@ -1,0 +1,39 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Pipeline CRM{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/app.css' %}">
+  </head>
+  <body>
+    {% if user.is_authenticated %}
+      <div class="app-shell">
+        <aside class="sidebar">
+          <a class="brand" href="{% url 'pipelines:list' %}">Pipeline CRM</a>
+          <nav class="sidebar-nav" aria-label="Main navigation">
+            <a href="{% url 'pipelines:list' %}"{% if request.resolver_match.namespace == 'pipelines' %} class="is-active"{% endif %}>Pipelines</a>
+          </nav>
+          <div class="sidebar-user">
+            <span>{{ user.get_full_name|default:user.username }}</span>
+            <form method="post" action="{% url 'logout' %}">
+              {% csrf_token %}
+              <button class="button button-ghost" type="submit">Log out</button>
+            </form>
+          </div>
+        </aside>
+        <main class="main-content">
+          {% include 'partials/messages.html' %}
+          {% block content %}{% endblock %}
+        </main>
+      </div>
+    {% else %}
+      <main class="auth-content">
+        {% include 'partials/messages.html' %}
+        {% block auth_content %}{% endblock %}
+      </main>
+    {% endif %}
+    {% block scripts %}{% endblock %}
+  </body>
+</html>

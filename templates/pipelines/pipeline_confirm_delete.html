@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete {{ pipeline.name }} · Pipeline CRM{% endblock %}
+
+{% block content %}
+  <div class="form-page">
+    <a class="back-link" href="{% url 'pipelines:detail' pipeline.pk %}">← Back to pipeline</a>
+    <h1>Delete pipeline?</h1>
+    <p class="muted">This will permanently delete “{{ pipeline.name }}”, its stages, and its cards.</p>
+    <form method="post" class="form-actions">
+      {% csrf_token %}
+      <a class="button button-secondary" href="{% url 'pipelines:detail' pipeline.pk %}">Cancel</a>
+      <button class="button button-destructive" type="submit">Delete pipeline</button>
+    </form>
+  </div>
+{% endblock %}

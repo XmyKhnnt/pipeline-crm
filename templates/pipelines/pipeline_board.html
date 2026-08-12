@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ pipeline.name }} · Pipeline CRM{% endblock %}
+
+{% block content %}
+  <header class="board-header">
+    <div>
+      <a class="back-link" href="{% url 'pipelines:list' %}">← Pipelines</a>
+      <h1>{{ pipeline.name }}</h1>
+      {% if pipeline.description %}<p class="muted board-description">{{ pipeline.description }}</p>{% endif %}
+    </div>
+    <div class="board-actions">
+      {% if stages %}<a class="button button-primary" href="{% url 'pipelines:card-create' pipeline.pk %}">+ Card</a>{% endif %}
+      <a class="button button-secondary" href="{% url 'pipelines:stage-create' pipeline.pk %}">+ Stage</a>
+      <a class="button button-ghost" href="{% url 'pipelines:edit' pipeline.pk %}">Settings</a>
+    </div>
+  </header>
+
+  {% if stages %}
+    <div
+      id="stage-board"
+      class="kanban-board"
+      data-stage-reorder-url="{% url 'pipelines:stage-reorder' pipeline.pk %}"
+    >
+      {% for stage in stages %}
+        <section class="kanban-column" data-stage-id="{{ stage.pk }}" aria-labelledby="stage-{{ stage.pk }}">
+          <header class="column-header">
+            <div class="column-heading">
+              <button class="stage-drag-handle" type="button" title="Drag to reorder stage" aria-label="Drag to reorder stage">⠿</button>
+              <h2 id="stage-{{ stage.pk }}">{{ stage.name }}</h2>
+              <span class="count">{{ stage.cards.all|length }}</span>
+            </div>
+            <div class="column-actions">
+              <a href="{% url 'pipelines:stage-edit' pipeline.pk stage.pk %}">Edit</a>
+              <form method="post" action="{% url 'pipelines:stage-delete' pipeline.pk stage.pk %}">
+                {% csrf_token %}
+                <button class="inline-danger" type="submit">Delete</button>
+              </form>
+            </div>
+          </header>
+          <a class="add-card" href="{% url 'pipelines:card-create' pipeline.pk %}?stage={{ stage.pk }}">+ Add card</a>
+          <div class="card-list" data-stage-id="{{ stage.pk }}">
+            {% for card in stage.cards.all %}
+              <article class="kanban-card" data-card-id="{{ card.pk }}" data-move-url="{% url 'pipelines:card-move' pipeline.pk card.pk %}">
+                <div class="card-heading">
+                  <a href="{% url 'pipelines:card-edit' pipeline.pk card.pk %}">{{ card.title }}</a>
+                  <form method="post" action="{% url 'pipelines:card-delete' pipeline.pk card.pk %}">
+                    {% csrf_token %}
+                    <button class="inline-danger" type="submit">Delete</button>
+                  </form>
+                </div>
+                {% if card.company %}<p>{{ card.company }}</p>{% endif %}
+                {% if card.contact_name %}<p class="muted">{{ card.contact_name }}</p>{% endif %}
+                <div class="card-meta">
+                  {% if card.value %}<span>${{ card.value }}</span>{% endif %}
+                  {% if card.due_date %}<span>Due {{ card.due_date|date:'M j' }}</span>{% endif %}
+                </div>
+              </article>
+            {% endfor %}
+          </div>
+        </section>
+      {% endfor %}
+    </div>
+  {% else %}
+    <section class="empty-state">
+      <h2>This pipeline has no stages.</h2>
+      <p>Add a stage to start building your board.</p>
+      <a class="button button-primary" href="{% url 'pipelines:stage-create' pipeline.pk %}">Add Stage</a>
+    </section>
+  {% endif %}
+{% endblock %}
+
+{% block scripts %}
+  {% if stages %}
+    <script defer src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.7/Sortable.min.js"></script>
+    <script defer src="{% static 'js/kanban.js' %}"></script>
+  {% endif %}
+{% endblock %}

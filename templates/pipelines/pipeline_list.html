@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Pipelines · Pipeline CRM{% endblock %}
+
+{% block content %}
+  <header class="page-header">
+    <div>
+      <h1>Pipelines</h1>
+      <p class="muted">Your active boards and opportunities.</p>
+    </div>
+    <a class="button button-primary" href="{% url 'pipelines:create' %}">+ New Pipeline</a>
+  </header>
+
+  {% if pipelines %}
+    <section class="pipeline-list" aria-label="Your pipelines">
+      {% for pipeline in pipelines %}
+        <a class="pipeline-row" href="{% url 'pipelines:detail' pipeline.pk %}">
+          <div>
+            <h2>{{ pipeline.name }}</h2>
+            {% if pipeline.description %}<p class="muted pipeline-description">{{ pipeline.description|truncatechars:130 }}</p>{% endif %}
+            <p class="row-meta">{{ pipeline.stage_total }} stage{{ pipeline.stage_total|pluralize }} · {{ pipeline.card_total }} card{{ pipeline.card_total|pluralize }}</p>
+          </div>
+          <span class="row-meta">Updated {{ pipeline.updated_at|timesince }} ago</span>
+        </a>
+      {% endfor %}
+    </section>
+  {% else %}
+    <section class="empty-state">
+      <h2>No pipelines yet.</h2>
+      <p>Create your first pipeline to get started.</p>
+      <a class="button button-primary" href="{% url 'pipelines:create' %}">Create Pipeline</a>
+    </section>
+  {% endif %}
+{% endblock %}
