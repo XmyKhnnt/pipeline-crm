@@ -2,6 +2,16 @@
 
 Pipeline CRM is a small, server-rendered Django application for managing user-owned Kanban pipelines. Each new pipeline starts with **New**, **In Progress**, **Won**, and **Lost** stages. Cards can be created, edited, deleted, and moved or reordered by drag-and-drop.
 
+## Screenshots
+
+### Pipeline list
+
+![Pipeline list](docs/screenshots/pipeline-list.png)
+
+### Kanban board
+
+![Kanban board](docs/screenshots/kanban-board.png)
+
 ## Requirements
 
 - Python 3.12+
