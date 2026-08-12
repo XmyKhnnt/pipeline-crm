@@ -6,11 +6,11 @@ Pipeline CRM is a small, server-rendered Django application for managing user-ow
 
 ### Pipeline list
 
-![Pipeline list](docs/screenshots/pipeline-list.png)
+![Pipeline list](https://raw.githubusercontent.com/XmyKhnnt/pipeline-crm/main/docs/screenshots/pipeline-list.png)
 
 ### Kanban board
 
-![Kanban board](docs/screenshots/kanban-board.png)
+![Kanban board](https://raw.githubusercontent.com/XmyKhnnt/pipeline-crm/main/docs/screenshots/kanban-board.png)
 
 ## Requirements
 
