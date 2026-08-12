@@ -2,16 +2,6 @@
 
 Pipeline CRM is a small, server-rendered Django application for managing user-owned Kanban pipelines. Each new pipeline starts with **New**, **In Progress**, **Won**, and **Lost** stages. Cards can be created, edited, deleted, and moved or reordered by drag-and-drop.
 
-## Screenshots
-
-### Pipeline list
-
-![Pipeline list](https://raw.githubusercontent.com/XmyKhnnt/pipeline-crm/main/docs/screenshots/pipeline-list.png)
-
-### Kanban board
-
-![Kanban board](https://raw.githubusercontent.com/XmyKhnnt/pipeline-crm/main/docs/screenshots/kanban-board.png)
-
 ## Requirements
 
 - Python 3.12+
@@ -80,3 +70,13 @@ pipelines/    Models, forms, views, URLs, admin, migrations, and tests
 templates/    Base, authentication, and pipeline templates
 static/       Application CSS and Kanban JavaScript
 ```
+
+## Screenshots
+
+### Pipeline list
+
+![Pipeline list](https://raw.githubusercontent.com/XmyKhnnt/pipeline-crm/main/docs/screenshots/pipeline-list.png)
+
+### Kanban board
+
+![Kanban board](https://raw.githubusercontent.com/XmyKhnnt/pipeline-crm/main/docs/screenshots/kanban-board.png)
